@@ -53,19 +53,21 @@ print(mse3, r3)
 
 
 # Plot the impurity-based feature importances of the forest
-plt.figure()
-plt.title("Feature importances")
-plt.bar(range(x.shape[1]), features_importance[indices],
-        color="r", yerr=std[indices], align="center")
-plt.xticks(range(x.shape[1]), indices)
-plt.xlim([-1, x.shape[1]])
-plt.show()
 
 feature_list = list(x.columns)
-importances = list(regression.feature_importances_)
+importances = list(reg3.feature_importances_)
 feature_importances = [(feature, round(importance, 2)) for feature, importance in zip(feature_list, importances)]
 feature_importances = sorted(feature_importances, key = lambda x: x[1], reverse = True)
-[print('Variable: {:20} Importance: {}'.format(*pair)) for pair in feature_importances];
+[print('Variable: {:20} Importance: {}'.format(*pair)) for pair in feature_importances]
+
+t = df = pd.DataFrame(feature_importances,columns =['Name', 'val'])
+
+plt.figure()
+plt.title("Feature importances")
+plt.bar(range(x.shape[1]), t.val, color="b", align="center")
+plt.xticks(range(x.shape[1]), t.Name, fontsize=8, rotation=25)
+plt.xlim([-1, x.shape[1]])
+plt.show()
 
 
 lw = 2
@@ -76,11 +78,11 @@ model_color = ['m', 'c', 'g']
 
 fig, axes = plt.subplots(nrows=1, ncols=3, figsize=(15, 10), sharey=True)
 for ix, svr in enumerate(svrs):
-    axes[ix].scatter(x_train.iloc[:,5], svr.fit(x_train, y_train.ravel()).predict(x_train), color=model_color[ix], lw=lw,
-                  label='{} model'.format(kernel_label[ix]))
+    axes[ix].scatter(x_train.iloc[:,5], svr.fit(x_train, y_train).predict(x_train), color=model_color[ix], lw=lw,
+                  label='{} trees'.format(kernel_label[ix]))
     axes[ix].scatter(x_train.iloc[:,5], y_train, facecolor="none",
                      edgecolor=model_color[ix], s=50,
-                     label='{} support vectors'.format(kernel_label[ix]))
+                     label='{} predictions'.format(kernel_label[ix]))
     axes[ix].legend(loc='upper center', bbox_to_anchor=(0.5, 1.1),
                     ncol=1, fancybox=True, shadow=True)
 
@@ -88,3 +90,6 @@ fig.text(0.5, 0.04, 'data', ha='center', va='center')
 fig.text(0.06, 0.5, 'target', ha='center', va='center', rotation='vertical')
 fig.suptitle("Support Vector Regression", fontsize=14)
 plt.show()
+
+
+
