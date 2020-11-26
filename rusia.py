@@ -1,6 +1,6 @@
 import pandas as pd
 
-rus = pd.read_csv("E:/Blog/rusia_rides.csv", sep=";")
+rus = pd.read_csv("E:/GitRepo/Blog/rusia_rides.csv", sep=";")
 
 rus.drop("trip_completed_at", inplace=True, axis=1)
 rus.head(10)
@@ -64,7 +64,7 @@ data = rus[
 ]
 
 ## save file ----------------------------
-data.to_csv(r"E:/Blog/rus2.csv", index=None, header=True)
+data.to_csv(r"E:/GitRepo/Blog/rus2.csv", index=None, header=True)
 
 data.head()
 data.shape
