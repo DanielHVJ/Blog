@@ -12,7 +12,7 @@ def clean_dataset(df):
     indices_to_keep = ~df.isin([np.nan, np.inf, -np.inf]).any(1)
     return df[indices_to_keep]
 #%%
-df = pd.read_csv("rus2.csv", sep=",")
+df = pd.read_csv("D:\\GitRepo\\Blog\\rus2.csv", sep=",")
 
 dt = df.select_dtypes(include=np.number)
 clean_dataset(dt)
@@ -88,4 +88,3 @@ ax.set_title('OLS predicted values')
 ax.set_xlabel('distance_kms')
 ax.set_ylabel('price_usd')
 plt.show()
-# %%
