@@ -1,3 +1,5 @@
+
+
 # Performing Linear Regression in Python
 
 ### Importing the main libraries
@@ -80,11 +82,58 @@ ht = Stargazer([reg1, reg2, reg3])
 HTML(ht.render_html())
 ```
 
+<<<<<<< HEAD
 From the results of Table 1, we can see that considering all the variables, *the temperature and wind speed* are not statistically significant, but appears that higher humidity have a negative effect on price; on the other hand, considering the models 2 and 3, in they we omit the environmental variables, in model 2 we consider only *Total time* of the trip, and in Model 3 we use the *Wait time* of the passenger.
 
 From columns of 2 and 3, we see that only the *Total time* still has a positive impact on price, however when we use *Wait time* we see that the variable is not significant anymore. 
+=======
+```
+        Table 1 - OLS Regressions
+   
+===============================================
+                   Model 1   Model 2   Model 3 
+-----------------------------------------------
+surge_multiplier  4.640***  3.090***  3.640*** 
+                  (0.739)   (0.580)   (0.578)  
+driver_gender     -1.871*** -2.276*** -2.232***
+                  (0.585)   (0.576)   (0.586)  
+distance_kms      0.288***  0.284***  0.349*** 
+                  (0.018)   (0.018)   (0.013)  
+total_time        0.059***  0.060***           
+                  (0.012)   (0.012)            
+wait_time         -0.054*** -0.058*** 0.009    
+                  (0.019)   (0.019)   (0.013)  
+humidity          -2.398***                    
+                  (0.683)                      
+temperature_value -0.012                       
+                  (0.012)                      
+wind_speed        -0.026                       
+                  (0.061)                      
+R-squared         0.828     0.824     0.818    
+R-squared Adj.    0.826     0.823     0.817    
+No. observations  643       643       643      
+===============================================
+Standard errors in parentheses.
+* p<.1, ** p<.05, ***p<.01
+```
+>>>>>>> cc4235264479b8a32b3871dd5882bb8a7ef64425
 
 Finally, we define a plot where we can see the OLS estimations and all the predicted points by the selected regression model, in this case the prediction use the the third model.
+
+```python
+## PLOT
+
+fix, ax = plt.subplots()
+ax.scatter(dt['distance_kms'], reg3.predict(), alpha=0.5, label='predicted')
+# Plot observed values
+ax.scatter(dt['distance_kms'], dt['price_usd'], alpha=0.5, label='observed')
+
+ax.legend()
+ax.set_title('OLS predicted values')
+ax.set_xlabel('distance_kms')
+ax.set_ylabel('price_usd')
+plt.show()
+```
 
 ```python
 from statsmodels.sandbox.regression.predstd import wls_prediction_std
@@ -104,3 +153,7 @@ ax.set_ylabel('price_usd')
 plt.show()
 ```
 
+<<<<<<< HEAD
+=======
+Here's the plot for the OLS model with predicted values : ![alt]({{ site.url }}{{ site.baseurl }}/images/python/ol2.png) 
+>>>>>>> cc4235264479b8a32b3871dd5882bb8a7ef64425
