@@ -12,7 +12,7 @@ def clean_dataset(df):
     indices_to_keep = ~df.isin([np.nan, np.inf, -np.inf]).any(1)
     return df[indices_to_keep]
 #%%
-df = pd.read_csv("rus2.csv", sep=",")
+df = pd.read_csv("E:/GitRepo/Blog/rus2.csv", sep=",")
 
 dt = df.select_dtypes(include=np.number)
 clean_dataset(dt)
@@ -29,7 +29,7 @@ import statsmodels.api as sm
 reg1 = sm.OLS(endog = y, exog = x).fit()
 reg1.summary()
 
-x2 = ['total_time','wait_time','surge_multiplier','driver_gender','distance_kms' ]
+x2 = ['total_time','surge_multiplier','driver_gender','distance_kms' ]
 x = sm.add_constant(x)
 reg2 = sm.OLS(endog = y, exog = x[x2]).fit()
 reg2.summary()
@@ -47,9 +47,9 @@ results_table = summary_col(results=[reg1,reg2,reg3], float_format='%0.3f',
                             stars = True, model_names=['Model 1',
                                          'Model 2',
                                          'Model 3'],
-                            info_dict=dict, regressor_order= ['surge_multiplier','driver_gender','distance_kms','total_time','wait_time'])
+                            info_dict=dict, regressor_order= ['surge_multiplier','driver_gender','distance_kms','total_time','wait_time', 'humidity', 'temperature_value','wind_speed'])
 
-results_table.add_title('Table 2 - OLS Regressions')
+results_table.add_title('Table 1 - OLS Regressions')
 print(results_table)
 
 #%%
@@ -59,22 +59,10 @@ from IPython.core.display import HTML
 ht = Stargazer([reg1, reg2, reg3])
 HTML(ht.render_html())
 
-#%%
-## PLOT
 
-fix, ax = plt.subplots()
-ax.scatter(dt['distance_kms'], reg3.predict(), alpha=0.5, label='predicted')
-# Plot observed values
-ax.scatter(dt['distance_kms'], dt['price_usd'], alpha=0.5, label='observed')
-
-ax.legend()
-ax.set_title('OLS predicted values')
-ax.set_xlabel('distance_kms')
-ax.set_ylabel('price_usd')
-plt.show()
 # %%
 from statsmodels.sandbox.regression.predstd import wls_prediction_std
-prstd, iv_u, il_v = wls_prediction_std(reg3)
+prstd, iv_u, il_v = wls_prediction_std(reg2)
 
 fig, ax = plt.subplots(figsize=(8,6))
 
