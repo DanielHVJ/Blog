@@ -1,4 +1,4 @@
-# Combinatorial analysys
+# Combinatorial analysis
 
 [TOC]
 
@@ -77,7 +77,7 @@ As a matter of fact, a permutation is an ordered combination. There are basicall
 
 #### Permutations with repetition
 
-(In other words, there are **n** possibilities for the first choice, THEN there are **n** possibilites for the second choice, and so on, multplying each time.)
+(In other words, there are **n** possibilities for the first choice, THEN there are **n** possibilities for the second choice, and so on, multiplying each time.)
 
 Which is easier to write down using an [exponent](https://www.mathsisfun.com/exponent.html) of **r**:
 $$
@@ -99,7 +99,24 @@ $$
 10P4=10!/(10−4)!
 $$
 
-`where n is the number of things to choose from,and we choose r of them, no repetitions, order matters`
+where n is the number of things to choose from,and we choose r of them, no repetitions, order matters.
+
+```python
+# Permutations Code
+n = 4
+k = 2
+
+# Determine permutations and print result
+Permutations = math.factorial(n) / math.factorial(n-k)
+print(Permutations)
+
+12.0
+
+# OR
+
+import math
+math.perm(4,2)
+```
 
 ### Combinations
 
@@ -109,7 +126,7 @@ You have seen that when you're working with permutations, the order matters. Wit
 
 The formula, for the number of combinations without repetition/replacement, would be very similar to working out the number of permutations without repetition/replacement; it is simply the same formula but decreased by the number of size r permutations without replacement/repetition:
 $$
-nPk=\frac{n!}{r!(n-r)!}
+nCk=\frac{n!}{r!(n-r)!}
 $$
 And is also known as the [Binomial Coefficient](https://www.mathsisfun.com/data/binomial-distribution.html).
 
@@ -129,67 +146,11 @@ $$
 nCk=\frac{(r+n-1)!}{r!(n-1)!}
 $$
 
-There are six combinations of pocket Aces. To find the number of combinations, you first must find the number of permutations:
-
-```python
-# Permutations Code
-import math
-n = 4
-k = 2
-
-# Determine permutations and print result
-Permutations = math.factorial(n) / math.factorial(k)
-print(Permutations)
-
-12
-```
-
-```R
-#install if necessary
-install.packages('gtools')
-#load library
-library(gtools)
-#urn with 3 balls
-x <- c('red', 'blue', 'black')
-#pick 2 balls from the urn with replacement
-#get all permutations
-permutations(n=3,r=2,v=x,repeats.allowed=T)
-#      [,1]    [,2]   
-# [1,] "black" "black"
-# [2,] "black" "blue" 
-# [3,] "black" "red"  
-# [4,] "blue"  "black"
-# [5,] "blue"  "blue" 
-# [6,] "blue"  "red"  
-# [7,] "red"   "black"
-# [8,] "red"   "blue" 
-# [9,] "red"   "red"
-#number of permutations
-nrow(permutations(n=3,r=2,v=x,repeats.allowed=T))
-
-9
-
-
-## Permutations without repetition
-
-x <- c('red', 'blue', 'black')
-#pick 2 balls from the urn with replacement
-#get all permutations
-permutations(n=3,r=2,v=x)
-#     [,1]    [,2]   
-#[1,] "black" "blue" 
-#[2,] "black" "red"  
-#[3,] "blue"  "black"
-#[4,] "blue"  "red"  
-#[5,] "red"   "black"
-#[6,] "red"   "blue"
-#number of permutations
-nrow(permutations(n=3,r=2,v=x))
-
-6
-```
+There are six combinations of pocket Aces. To find the number of combinations, you first must find the number of permutations.
 
 To determine the number of combinations, simply divide the number of permutations by the factorial of the size of the subset. Try finding the number of starting hand combinations that can be dealt in Texas Hold’em.
+
+###### Python
 
 ```python
 # Combinations Code
@@ -199,30 +160,30 @@ k = 2
 # Determine Permutations
 Permutations = math.factorial(n) / math.factorial(n - k)
 
-# Determine Combinations and print result
+# Determine Combinations without replacement
 Combinations = Permutations / math.factorial(k)
 print(Combinations)
 
 1326.0
 ```
 
-
+###### R
 
 ```R
 # calculate the number of combinations without replacement/repetition
- 
 choose(n=24,k=4)
 10626
 
 # calculate the number of combinations with replacement/repetition
 
 comb_with_replacement <- function(n, r){
-  return( factorial(n + r – 1) / (factorial(r) * factorial(n – 1)))
+  return(factorial(n + r – 1) / (factorial(r) * factorial(n – 1)))
 }
 
 #have 3 elements, choosing 3
-comb_with_replacement(3,3)
-10
+comb_with_replacement(52,2)
+
+1378
 ```
 
 
@@ -246,6 +207,8 @@ P(A|B)=P(A)\\
 P(B|A)=P(B)
 $$
 Let's consider the following example, where you already know the probability of drawing an Ace on the first draw. Now you need to determine the probability of drawing an Ace on the second draw, if the first card drawn was either a King or an Ace:
+
+###### Python
 
 ```python
 # Sample Space
@@ -290,7 +253,12 @@ $$
 It's key here to understand that the "OR" component is very important: drawing a heart OR drawing a club are two mutually exclusive events. A heart is a heart and a club is a club. To determine the probability of drawing a heart or drawing a club, add the probability of drawing a heart to the probability of drawing a club.
 
 1. Drawing a heart or drawing a club;
+
 2. Drawing an ace, a king or a queen.
+
+    
+
+    ###### Python
 
 ```python
 # Sample Space
@@ -335,12 +303,14 @@ cards = 52
 hearts = 13
 aces = 4
 ace_of_hearts = 1
+
 heart_or_ace = event_probability(hearts, cards) + event_probability(aces, cards) - event_probability(ace_of_hearts, cards)
 
 # Calculate the probability of drawing a red card or a face card
 red_cards = 26
 face_cards = 12
 red_face_cards = 6
+
 red_or_face_cards = event_probability(red_cards, cards) + event_probability(face_cards, cards) - event_probability(red_face_cards, cards)
 
 print(round(heart_or_ace, 1))
@@ -391,22 +361,18 @@ The best starting hand you can have in Texas Hold’em is pocket Aces. What is t
 ```python
 # Sample Space first draw
 cards = 52
-
 # Outcomes first draw
 aces = 4
 
 # Probability of ace on first draw
 first_ace_probability = aces / cards
-
 # Sample Space second draw
 cards = cards - 1
-
 # Outcomes second draw
 aces = aces - 1
 
 # Probability of ace on second draw after ace on first
 second_ace_probability = aces / cards
-
 # Probability of two consecutive aces (dependent)
 both_aces_probability = first_ace_probability * second_ace_probability * 100
 print(both_aces_probability)
@@ -453,8 +419,20 @@ p=\frac{(n)_r}{n^r}
 $$
 
 for example, the probability that five consecutive random digits are all different is:
+
+```python
+n=10
+k=5
+c = math.comb(10,5)
+
+p = c*(n**-k)
+print(p)
+
+0.00252
+```
+
 $$
-p=(10)_5*10^-5=0.3024
+
 $$
 
 2. If _n balls are randomly placed into n cells, the probability that each cell will be occupied equals:
@@ -465,44 +443,65 @@ $$
 
 Which is surprisingly small:  for n=7 is only 0.00612.
 
-3. An elevator with r =7 passengers and 10 floors, the probability _p_ that no two passengers leave at the same floor, we assume all passengers have the same probability, then
-    $$
-    p = (10)_7*10^-7= 0.06048
-    $$
+3. An elevator with r =7 passengers and 10 floors, the probability _p_ that no two passengers leave at the same floor, we assume all passengers have the same probability, then.
     
-
+    ```python
+    floors=10
+    pas=7
+    c = math.comb(10,7)
+    
+    p = c*(floors**-pas)
+    print(p)
+    
+    1.2e-05
+    ```
+    
     ##### Subpopulations and partitions
-
+    
     1. **Theorem 1**. Of one or two colors. _r_ flags can be shown in _n_ poles, where N total of poles. For example, numbering flags of the same color can be displayed in _N/r!_ ways. Now suppose that p are the number of  flags with red color (p<r) and blue (q=r-p) flags, it can be still displayed: N/(p! q!).
-
+    
         Finally _p and q can be arranged in exactly_.
         $$
         \frac{(p+q)!}{p!q!}=\binom{p+q}{p}=\binom{p+q}{q}
         $$
-        **PROVE IT**
-
-    2. **Theorem 2**. Let be a list of integers _r1+r2+.....+rk = n_, where b can be divided into k parts, and it is not important the order of groups.
+        **Theorem 2**. Let be a list of integers _r1+r2+.....+rk = n_, where b can be divided into k parts, and it is not important the order of groups.
         $$
         \frac{n!}{r_1!r_2!...r_k!}
         $$
         For example the probability of an ace to each player in a Bridge table:
-
+    
         52 total cards, 4 players, the number of different situations is equal to:
-        $$
-        52!/13!^4 = 5.36\text{e-28}\\
-        \frac{4!*48!*13^4}{52!}=0.105
-        $$
+    
+        ```python
+        math.factorial(52)/math.factorial(13)**4
+        
+        5.36e+28
+        
+        
+        (math.factorial(4)*math.factorial(48)*13**4)/math.factorial(52)
+        
+        0.105
+        ```
+    
         _Dices_: A throw of ten dice can result as $`6^10$ different outcomes with equal probabilities, the event of each face can appear three times in as many ways is equal to:
-        $$
-        10!/(3^6*6^{10})=0.000082 \ and\ twice\\
-        10!/(2^6*6^{10})=0.00094
-        $$
+    
+        ```python
+        math.factorial(10)/(3**6*6**10)
+        
+        0.000082
+        
+        math.factorial(10)/(2**6*6**10)
+        
+        0.00094
+        ```
+    
+        
 
 ### The Hypergeometric distribution
 
 Many combinatorial problems can be reduced to the following form of a population of _n_ elements, where n<sub>2</sub> = n -  n<sub>1</sub>. Where we see the probability of red elements (_k_) and blacks ones (_r - k_).
 
-The hypergeometric distribution can be generalized where the total population _n_ contains several classes of elements, for example it contains three subclasses (n<sub>1<sub/>, (n<sub>2<sub/>, and n - (n<sub>1<sub/> - (n<sub>2<sub/>) respectively.
+The hypergeometric distribution can be generalized where the total population _n_ contains several classes of elements, for example it contains three subclasses (n1, n2, and n - n1 -n2) respectively.
 
 If we take a sub sample of size _r_, the probability that contains _k1_ of the first, _k2_ of the second, and _r-k1-k2_ of the last one, can be defined by the analogy:
 $$
@@ -517,7 +516,17 @@ $$
 
 a.	*Quality inspection*: Sampling inspection of _n_ elements, with red defecting items (n<sub>1</sub>), their number is unknown. Considering a sampling of _r_ with _k_ defecting elements.
 
-**EXAMPLE IN PYTHON**
+```python
+n = 25000
+n1 = 5000
+r = 200
+k = 18
+
+qk = (math.comb(r,k)*math.comb(n-r,r-k))/math.comb(n,r)
+qk
+
+1.060e-05
+```
 
 b.	In case we have to estimate an approximation of total population we could use
 $$
@@ -525,7 +534,32 @@ n \approx \frac{n_1*r}{k}
 $$
 Let's see we have a first catch of fishes of 1,000 all had red spots, after releasing them  we did a second catch of 1,000, and in this last one we had 100 fishes with red spots, we don't have the total population, and we would like to have the probability of red spots fishes in the pond.
 
+```python
+n1 = 1000
+r = 1000
+k = 100
+
+n = int(n1*r/k)
+n
+10000
+
+qk = (math.comb(r,k)*math.comb(n-r,n1-k))/math.comb(n,n1)
+qk
+0.0442
+```
+
 c.	In a bridge game, the probability that a hand of thirteen cards consists of five spades, four hearths, three diamonds and one club is:
 $$
-\binom{13}{5}\binom{13}{4}\binom{13}{3}\binom{13}{1}/\binom{52}{13} =
+\binom{13}{5}\binom{13}{4}\binom{13}{3}\binom{13}{1}/\binom{52}{13} = 0.0053
 $$
+
+```python
+n=52
+n1=13
+
+pk = (math.comb(n1,5)*math.comb(n1,4)*math.comb(n1,3)*math.comb(n1,1))/math.comb(n,n1)
+pk
+
+0.0053
+```
+
