@@ -22,3 +22,12 @@ We set k value where the position where the accumulated sum is equal in head and
 
 Symmetry implies that the inequalities _k > n/2_ and _k < n/2_ are equally likely.
 
+
+
+### Arc sine law for last visits
+
+The probability that up to and including epoch _2n_ the last visit to the origin occurs at epoch _2k_ is given by:
+$$
+\alpha_{2k,2n}=\frac{\binom{2n}{k}}{2^{2n}}
+$$
+We see that as k increases also increases the probability, also we can see that it is very similar to an _arc sine distribution_ of _k_ values.
