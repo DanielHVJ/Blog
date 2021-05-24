@@ -33,7 +33,7 @@ print("Tail Count: ", np.count_nonzero(play_2== 0))
 
 x = np.arange(1,n+1) 
 from matplotlib import pyplot as plt 
-plt.title("Matplotlib demo") 
+plt.title("Coin tossing") 
 plt.xlabel("x axis caption") 
 plt.ylabel("y axis caption") 
 plt.bar(x,play_1) 
@@ -42,12 +42,37 @@ plt.show()
 head_1=np.cumsum(play_1==1)
 tail_1=np.cumsum(play_1==0)
 
-np.where(head_1 == tail_1)
+k_1 = np.where(head_1 == tail_1)
+(np.array(k_1).size)
+
+head_2=np.cumsum(play_2==1)
+tail_2=np.cumsum(play_2==0)
+
+k_2 = np.where(head_2 == tail_2)
+(np.array(k_2).size)
+
+k_f = np.where(head_1==head_2)
 
 play_1 = np.where(play_1==0, -1, play_1)
 
+
 plt.figure(figsize=(17,5))
 plt.plot(x[:100],play_1[:100],'--.',marker='^') 
+plt.show()
+
+play_2 = np.where(play_2==0, -1, play_2)
+plt.figure(figsize=(17,5))
+plt.plot(x[400:500],play_2[400:500],'g--.',marker='') 
+plt.show()
+
+plt.figure(figsize=(17,5))
+plt.title('Equalization Player One') 
+plt.plot(k_1,k_1,'-',marker='D',markersize=12) 
+plt.show()
+
+plt.figure(figsize=(17,5))
+plt.title('Equalization Player Two')  
+plt.plot(k_2,k_2,'o',marker='P',markersize=12) 
 plt.show()
 
 from scipy.interpolate import make_interp_spline, BSpline
