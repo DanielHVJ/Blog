@@ -1,3 +1,5 @@
+
+
 # Fluctuations in coin tossing
 
 The ideal coin-tossing game will be described in the terminology of random walks which is better suited for generalizations. For the geometric description it is convenient to pretend that tossings are performed at a uniformed rate so that the _nth_ trial occurs at epoch _p_.
@@ -93,4 +95,89 @@ The probability that up to and including epoch _2n_ the last visit to the origin
 $$
 \alpha_{2k,2n}=\frac{\binom{2n}{k}}{2^{2n}}
 $$
-We see that as k increases also increases the probability, also we can see that it is very similar to an _arc sine distribution_ of _k_ values.
+We see that as k increases also increases the probability, also we can see that it is almost similar to an _arc sine distribution_ of _k_ values as the values of _k_ and sample (n) increases.
+
+```python
+import math
+
+n = 20
+k = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+k1 = (np.linspace(0,1,21))
+distr = [0]*21
+out_arc = [0]*21
+
+out_array1 = np.sin(k1)
+out_array2 = np.arcsin(k1)
+
+
+def arc(k):    
+    #perform the binomial distribution (returns 0 or 1)    
+    result = (math.comb(2*n,k))/(2**2*n) 
+    #return flip to be added to numpy array    
+    return result
+
+for i in (np.int64((k))):    
+    distr[i] = (math.comb(2*n,i))/(2**(2*n))     
+    out_arc[i] = np.sin(i)
+    i+=1
+
+
+import matplotlib.pyplot as plt
+
+fig, ax1 = plt.subplots()
+ax2 = ax1.twinx()
+ax2.plot(k1, out_array1, color = 'pink', alpha = 0.5)
+ax1.bar(k1, distr,color = 'b', alpha = 0.2, width=.1)
+ax2.plot(k1, out_array2,color = 'g', alpha = 0.8)
+plt.show()
+
+
+from astropy.table import QTable, Table, Column
+from astropy import units as u
+
+t = QTable()
+t['k'] = k
+t['a'] = distr 
+t
+```
+
+
+
+| K    | \alpha_{2k,20}         |
+| ---- | ---------------------- |
+| 1    | 3.637978807091713e-11  |
+| 2    | 7.09405867382884e-10   |
+| 3    | 8.985807653516531e-09  |
+| 4    | 8.311872079502791e-08  |
+| 5    | 5.98454789724201e-07   |
+| 6    | 3.4909862733911723e-06 |
+| 7    | 1.6956219042185694e-05 |
+| 8    | 6.994440354901599e-05  |
+| 9    | 0.0002486912126187235  |
+| 10   | 0.0007709427591180429  |
+| 11   | 0.002102571161231026   |
+| 12   | 0.005081213639641646   |
+| 13   | 0.010944152454612777   |
+| 14   | 0.02110657973389607    |
+| 15   | 0.03658473820541985    |
+| 16   | 0.05716365344596852    |
+| 17   | 0.0807016283943085     |
+| 18   | 0.10311874739272753    |
+| 19   | 0.11940065487578977    |
+
+###  Changes of signs
+
+Lastly, considering the above example of coins tossing. The number of changes in a _n trials_ game, we should expect a number of changes (opposite sides) around  $\sqrt(n)$.
+
+ However, as long the number of epochs (r) increases the probability of the number changes should decrease.
+$$
+\varepsilon_{0,n} > \varepsilon_{0,n} > \varepsilon_{0,n} > ...
+$$
+As we see the probability has a Normal approximation:
+$$
+pr \approx \frac{1}{\sqrt{\pi*n}}
+$$
+And lastly, we can test the theorem of the discrete arc sine law, indicating that the probability a particle in the time interval of 0 to 2n, the particle spends 2k time units in the positive side is given by:  (1-x)n, and on the negative side tends to:
+$$
+\frac2\pi*arcsin(\sqrt{x})  \approx  negative side
+$$
