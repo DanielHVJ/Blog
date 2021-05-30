@@ -1,5 +1,11 @@
 
 
+
+
+
+
+
+
 # Fluctuations in coin tossing
 
 The ideal coin-tossing game will be described in the terminology of random walks which is better suited for generalizations. For the geometric description it is convenient to pretend that tossings are performed at a uniformed rate so that the _nth_ trial occurs at epoch _p_.
@@ -143,27 +149,15 @@ t
 
 
 
-| K    | \alpha_{2k,20}         |
-| ---- | ---------------------- |
-| 1    | 3.637978807091713e-11  |
-| 2    | 7.09405867382884e-10   |
-| 3    | 8.985807653516531e-09  |
-| 4    | 8.311872079502791e-08  |
-| 5    | 5.98454789724201e-07   |
-| 6    | 3.4909862733911723e-06 |
-| 7    | 1.6956219042185694e-05 |
-| 8    | 6.994440354901599e-05  |
-| 9    | 0.0002486912126187235  |
-| 10   | 0.0007709427591180429  |
-| 11   | 0.002102571161231026   |
-| 12   | 0.005081213639641646   |
-| 13   | 0.010944152454612777   |
-| 14   | 0.02110657973389607    |
-| 15   | 0.03658473820541985    |
-| 16   | 0.05716365344596852    |
-| 17   | 0.0807016283943085     |
-| 18   | 0.10311874739272753    |
-| 19   | 0.11940065487578977    |
+| **K** | **\alpha_{2k,20}**    |
+| ----- | --------------------- |
+| 1     | 3.637978807091713e-11 |
+| 5     | 5.98454789724201e-07  |
+| 10    | 0.0007709427591180429 |
+| 15    | 0.03658473820541985   |
+| 19    | 0.11940065487578977   |
+
+
 
 ###  Changes of signs
 
@@ -175,9 +169,84 @@ $$
 $$
 As we see the probability has a Normal approximation:
 $$
-pr \approx \frac{1}{\sqrt{\pi*n}}
+pr \approx \frac{1}{\sqrt{\pi*r}}
 $$
-And lastly, we can test the theorem of the discrete arc sine law, indicating that the probability a particle in the time interval of 0 to 2n, the particle spends 2k time units in the positive side is given by:  (1-x)n, and on the negative side tends to:
-$$
-\frac2\pi*arcsin(\sqrt{x})  \approx  negative side
-$$
+
+
+```python
+pr = []
+pr.append(1/np.sqrt(math.pi*5))
+pr.append(1/np.sqrt(math.pi*10))
+pr.append(1/np.sqrt(math.pi*20))
+pr.append(1/np.sqrt(math.pi*30))
+
+
+# Table of probabilities
+t = QTable()
+t['k'] = [5,10,20,30]
+t['a'] = np.round(pr,3)
+```
+
+
+
+| _r_  | _pr_  |
+| ---- | ----- |
+| 5    | 0.252 |
+| 10   | 0.178 |
+| 20   | 0.126 |
+| 30   | 0.103 |
+
+### Counting the number of changes in the tossing coins example
+
+```python
+total = [0]*9999
+for ele in range(1, len(play_1)):
+    total[ele]= play_1[ele+1] - play_1[ele]
+    ele+=1
+
+total_2 = [0]*9999
+for ele in range(1, len(play_2)):
+    total_2[ele]= play_1[ele+1] - play_1[ele]
+    ele+=1
+
+print('Positive side changes',total.count(1))
+print('Negative side changes',total.count(-1))
+```
+
+```perl6
+Positive side changes 2497
+Negative side changes 2498
+```
+
+#### For player 1
+
+```python
+
+import collections
+ps1 = collections.Counter(play_1)[0]
+pn1 = collections.Counter(play_1)[1]
+print('Number of times in the positive side',ps1,';',ps1/n, 'percentage of time')
+print('Number of times in the negative side',pn1,';',pn1/n, 'percentage of time')
+```
+
+```perl6
+Number of times in the positive side 4962 ; 0.4962 percentage of total time
+Number of times in the negative side 5038 ; 0.5038 percentage of total time
+```
+
+#### Player 2
+
+```python
+ps2 = collections.Counter(play_2)[0]
+pn2 = collections.Counter(play_2)[1]
+print('Number of times in the positive side',ps2,';',ps2/n, 'percentage of time')
+print('Number of times in the negative side',pn2,';',pn2/n, 'percentage of time')
+```
+
+```pascal
+Number of times in the positive side 4995 ; 0.4995 percentage of total time
+Number of times in the negative side 5005 ; 0.5005 percentage of total time
+```
+
+
+

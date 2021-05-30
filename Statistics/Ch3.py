@@ -1,9 +1,10 @@
 import numpy as np
 
+
 #probability of heads vs. tails. This can be changed.
 probability = 0.5
 #num of flips required. This can be changed.
-n = 100
+n = 10000
 
 #initiate array
 play_1 = np.arange(n)
@@ -85,15 +86,14 @@ plt.plot(xnew, power_smooth,'-.', color='g',marker='o')
 plt.show()
 
 
- 
-# Iterate each element in list
+ # Iterate each element in list
 # and add them in variale total
-total = [0]*9
+total = [0]*9999
 for ele in range(1, len(play_1)):
     total[ele]= play_1[ele+1] - play_1[ele]
     ele+=1
 
-total_2 = [0]*9
+total_2 = [0]*9999
 for ele in range(1, len(play_2)):
     total_2[ele]= play_1[ele+1] - play_1[ele]
     ele+=1
@@ -104,15 +104,32 @@ print('Negative side changes',total.count(-1))
 import collections
 ps1 = collections.Counter(play_1)[0]
 pn1 = collections.Counter(play_1)[1]
+print('Number of times in the positive side',ps1,';',ps1/n, 'percentage of time')
+print('Number of times in the negative side',pn1,';',pn1/n, 'percentage of time')
 
 ps2 = collections.Counter(play_2)[0]
 pn2 = collections.Counter(play_2)[1]
+print('Number of times in the positive side',ps2,';',ps2/n, 'percentage of time')
+print('Number of times in the negative side',pn2,';',pn2/n, 'percentage of time')
+
+pr = []
+pr.append(1/np.sqrt(math.pi*5))
+pr.append(1/np.sqrt(math.pi*10))
+pr.append(1/np.sqrt(math.pi*20))
+pr.append(1/np.sqrt(math.pi*30))
 
 
-        
+# Table of probabilities
+t = QTable()
+t['k'] = [5,10,20,30]
+t['a'] = np.round(pr,3) 
+t
+
+
 
 ## 2
 import math
+
 
 n = 20
 k = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
@@ -146,7 +163,6 @@ ax2.plot(k1, out_array2,color = 'g', alpha = 0.8)
 plt.show()
 
 # 
-
 
 from astropy.table import QTable, Table, Column
 from astropy import units as u
