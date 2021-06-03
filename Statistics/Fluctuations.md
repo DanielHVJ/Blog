@@ -26,11 +26,11 @@ $$
 
 ## Last visit and long leads
 
-In a long coin-tossing the law of averages ensure that in the game each player will be on the winning side for about half of the time.
-
-In this experiment we choose at random and observe the number  of the last trial at which the accumulated number os head and tails were equal, denoted by _2k_ (0 < k < n).
+In a long coin-tossing the law of averages ensure that in the game each player will be on the winning side for about half of the time. For this experiment we simulate random coin-tossings and observe that the number of the last trial at which the accumulated number of head and tails were equal, denoted by _2k_ (0 < k < n).
 
 Symmetry implies that the inequalities _k > n/2_ and _k < n/2_ are equally likely.
+
+Suppose we play a game of 10,000 repetitions for each player (we have 2).
 
 ```python
 import numpy as np
@@ -60,6 +60,7 @@ for i in range(0, n):
 ```php
 probability is set to  0.5
 Tails = 0, Heads = 1:  [0 1 1 ... 0 0 0]
+
 Player One:
 Head Count:  4961
 Tail Count:  5039
@@ -69,7 +70,17 @@ Head Count:  4920
 Tail Count:  5080
 ```
 
-Finding k for player One
+As we can see from the previous results, in this example, Player 1 has a higher head count, while the opposite for Pkayer 2. 
+
+
+
+insert Fig 1
+
+insert Fig 1.2
+
+### Finding k -equality number-
+
+We defined _k_ as the accumulated numbers of heads and tails were equal. We found that all these position are even numbers (_python position starts at 0_).
 
 ```pascal
 [   1,   47,   53,   55, 2725, 2727, 2729, 3381, 3441, 3443, 3463,
@@ -91,7 +102,7 @@ K for Player Two
         1513, 1515, 1517]
 ```
 
-As we can see the equalization appears for more times for player one (67 cases), while player two has a small number of coincidences (cumulative sum of tails = head) only 47.
+As we can see the equalization number appears more times for Player one (67 cases), while Player two has a small number of coincidences,  only 47. From this result, we can assume that the game was more equal for Player 1, this also can be verified as the number of positions increases, higher than n/2  and lower than the last third. However, we can see that equality were considerably lower for Player 2.
 
 Concluding, we can see that we cannot judge the luck of Player 1 and 2 equally,  even at random events one has the chances to succeed more.
 

@@ -1,6 +1,5 @@
 import numpy as np
 
-
 #probability of heads vs. tails. This can be changed.
 probability = 0.5
 #num of flips required. This can be changed.
@@ -32,6 +31,7 @@ print("Tail Count: ", np.count_nonzero(play_1== 0))
 print("Head Count: ", np.count_nonzero(play_2 == 1))
 print("Tail Count: ", np.count_nonzero(play_2== 0))
 
+
 x = np.arange(1,n+1) 
 from matplotlib import pyplot as plt 
 plt.title("Coin tossing") 
@@ -58,12 +58,16 @@ play_1 = np.where(play_1==0, -1, play_1)
 
 
 plt.figure(figsize=(17,5))
+plt.title('Coin Tossing Player One') 
 plt.plot(x[:100],play_1[:100],'--.',marker='^') 
+plt.xlabel('trails \n First 100')
 plt.show()
 
 play_2 = np.where(play_2==0, -1, play_2)
 plt.figure(figsize=(17,5))
-plt.plot(x[400:500],play_2[400:500],'g--.',marker='') 
+plt.title('Coin Tossing Player Two') 
+plt.plot(x[9900:10000],play_2[9900:10000],'g--.',marker='*') 
+plt.xlabel('trails \n Last 100')
 plt.show()
 
 plt.figure(figsize=(17,5))
