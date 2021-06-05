@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 # Fluctuations in coin tossing
 
 The ideal coin-tossing game will be described in the terminology of random walks which is better suited for generalizations. For the geometric description it is convenient to pretend that tossings are performed at a uniformed rate so that the _nth_ trial occurs at epoch _p_.
@@ -106,13 +98,17 @@ As we can see the equalization number appears more times for Player one (67 case
 
 Concluding, we can see that we cannot judge the luck of Player 1 and 2 equally,  even at random events one has the chances to succeed more.
 
-### Arc sine law for last visits
+
+
+## Arc sine law for last visits
 
 The probability that up to and including epoch _2n_ the last visit to the origin occurs at epoch _2k_ is given by:
 $$
 \alpha_{2k,2n}=\frac{\binom{2n}{k}}{2^{2n}}
 $$
-We see that as k increases also increases the probability, also we can see that it is almost similar to an _arc sine distribution_ of _k_ values as the values of _k_ and sample (n) increases.
+We see that as _k_ increases also increases the probability, also we can see that it is almost similar to an _arc sine distribution_ of _k_ values as the values of _k_ and sample (n) increases.
+
+For this point, we will use a simulation with 20 observations.
 
 ```python
 import math
@@ -134,21 +130,35 @@ def arc(k):
     return result
 
 for i in (np.int64((k))):    
-    distr[i] = (math.comb(2*n,i))/(2**(2*n))     
+    distr[i] = arc(i)     
     out_arc[i] = np.sin(i)
     i+=1
 
 
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 
 fig, ax1 = plt.subplots()
 ax2 = ax1.twinx()
-ax2.plot(k1, out_array1, color = 'pink', alpha = 0.5)
-ax1.bar(k1, distr,color = 'b', alpha = 0.2, width=.1)
-ax2.plot(k1, out_array2,color = 'g', alpha = 0.8)
+ax2.plot(k1, out_array1, color = 'red', alpha = 0.5, label='Sine')
+ax1.bar(k1, distr,color = 'b', alpha = 0.2, width=.1, label='K value')
+ax2.plot(k1, out_array2,color = 'g', alpha = 0.8, label='Arc sine')
+b_patch = mpatches(color='blue', alpha = 0.8, label='K value')
+plt.legend(loc='lower left')
+ax1.legend(handles=[b_patch])
+plt.title('Arc Sine Law') 
 plt.show()
+```
+
+insetrt fig 2
 
 
+
+
+
+
+
+```python
 from astropy.table import QTable, Table, Column
 from astropy import units as u
 
@@ -158,7 +168,7 @@ t['a'] = distr
 t
 ```
 
-
+**Table 1. The discrete arc sine distribution of order n.**
 
 | **K** | **\alpha_{2k,20}**    |
 | ----- | --------------------- |
@@ -168,9 +178,11 @@ t
 | 15    | 0.03658473820541985   |
 | 19    | 0.11940065487578977   |
 
+As we can see as _n_ increases also the value of _k_, possibly reflecting the notion that as _n_ increases in a coin-tossing game, one of the players will remain more time on one side, and the other on the other side.  This is half-truth, due to two reason, we can see from the above example that Player 1 has more head counts than Player 2, but contrary to the theory, from Figure 3, we saw that the "arc sine distribution" appears when _n_ starts increasing. 
 
 
-###  Changes of signs
+
+## Changes of signs
 
 Lastly, considering the above example of coins tossing. The number of changes in a _n trials_ game, we should expect a number of changes (opposite sides) around  $\sqrt(n)$.
 
@@ -185,12 +197,16 @@ $$
 
 
 ```python
-pr = []
-pr.append(1/np.sqrt(math.pi*5))
-pr.append(1/np.sqrt(math.pi*10))
-pr.append(1/np.sqrt(math.pi*20))
-pr.append(1/np.sqrt(math.pi*30))
+prl = []
+lr = [5,10,20,30]
 
+def pr(i):
+    res = (1/np.sqrt(math.pi*i))
+    return res
+
+for i in lr:    
+    prl.append(pr(i))
+    i +=1 
 
 # Table of probabilities
 t = QTable()
@@ -200,12 +216,16 @@ t['a'] = np.round(pr,3)
 
 
 
+**Table 2. Table of probabilities of no change**
+
 | _r_  | _pr_  |
 | ---- | ----- |
 | 5    | 0.252 |
 | 10   | 0.178 |
 | 20   | 0.126 |
 | 30   | 0.103 |
+
+
 
 ### Counting the number of changes in the tossing coins example
 
@@ -225,15 +245,20 @@ print('Negative side changes',total.count(-1))
 ```
 
 ```perl6
+PLAYER ONE:
 Positive side changes 2497
 Negative side changes 2498
+
+PLAYER TWO:
+Positive side changes 2477
+Negative side changes 2476
 ```
 
 #### For player 1
 
 ```python
-
 import collections
+
 ps1 = collections.Counter(play_1)[0]
 pn1 = collections.Counter(play_1)[1]
 print('Number of times in the positive side',ps1,';',ps1/n, 'percentage of time')
@@ -261,3 +286,4 @@ Number of times in the negative side 5005 ; 0.5005 percentage of total time
 
 
 
+insert fig 3
