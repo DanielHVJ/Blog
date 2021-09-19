@@ -46,11 +46,41 @@ pall = 4*3*2/(math.comb(52,13)*math.comb(39,13)*math.comb(26,13))
 print(pall)
 ```
 
-The probablity of 3 players is equal to 4 players, since if 3 players have a complete suit, so does the last player. The probability of some player has a complete suit is:
+The probability of 3 players is equal to 4 players, since if 3 players have a complete suit, so does the last player. The probability of some player has a complete suit is:
 $$
 P_1 = 4p_1 - 6p_{1,2} + 4p_{1,2,3} - p_{1,2,3,4}
 $$
 using the Stirling's formula we have approximately:
 $$
-P_
+P_1 = \frac14*10^{-10}
 $$
+In this case,  _P<sub>1</sub>_ is nearly the sum of all probabilities of _A<sub>i</sub>_.
+
+### Application to the classical occupancy problem
+
+Returning to the problem of a random distribution of _r_ ball in _n_ cells, where we seek the probability _p(r,n)_ different ways.
+
+Consider now, _m_ cells that are empty and can be distributed in _Combination of (n, m)_.
+
+The relation among r and n is arbitrary, but if the average number _r/n_ of balls per cell is excessively large, then we cannot expect any empty cells; in this case:
+$$
+p_0(r,n) \approx 1
+\\
+p_m(r,n) \approx 0, m = 1
+$$
+Putting the abbreviation.
+$$
+ne^{-r/n}= \lambda
+$$
+Where _lambda_ represents the limit of empty and occupied cells.
+
+If  we consider that _n and r_ tends to be higher than 1 and bigger, so we have that _lambda_ will remains bounded, then we have:
+$$
+p(m;\lambda) = e^{-\lambda}\frac{\lambda^m} {m!}
+$$
+
+
+  
+
+ 
+
