@@ -160,9 +160,7 @@ After t his exercise for Public Budget, for the next future, it could be more in
 
 
 ```python
-import numpy as np
 from scipy.optimize import linprog
-#import cvxopt
 ```
 
 ##### A) Growth episodes, no Covid-19
@@ -188,20 +186,6 @@ rhs_ineq = [23873,1098,0,0,8109,432,0,3626]
 opt = linprog(c=obj, A_ub=lhs_ineq, b_ub=rhs_ineq,method="simplex")
 opt
 ```
-
-
-
-
-         con: array([], dtype=float64)
-         fun: -2524.0691000000006
-     message: 'Optimization terminated successfully.'
-         nit: 10
-       slack: array([0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 2.27373675e-13,
-           0.00000000e+00, 0.00000000e+00, 4.54747351e-13, 1.32850000e+03])
-      status: 0
-     success: True
-           x: array([1098.  , 5968.25, 2626.03,    0.  , 8109.  ,  432.  , 3342.22,
-           2297.5 ])
 
 
 
@@ -232,104 +216,8 @@ opt_1
 
 
 
-         con: array([], dtype=float64)
-         fun: -2070.946296296296
-     message: 'Optimization terminated successfully.'
-         nit: 11
-       slack: array([ 5.97570370e+03,  0.00000000e+00,  1.13686838e-13, -4.54747351e-13,
-            0.00000000e+00,  0.00000000e+00,  0.00000000e+00,  3.80800000e+03])
-      status: 0
-     success: True
-           x: array([1035.        , 4242.64814815, 2029.09259259,    0.        ,
-           8316.        ,  610.        , 2213.55555556,    0.        ])
-
-
-
-
-
 
 ```python
-obj_f = [0,0,0,0,0,0,0,0,1]
-
-lhs_ineq_f = [[.05,.18,.07,.10,.14,.04,.1,-.12,1063],
-              [1,0,0,0,0,0,0,0,0],
-              [0,1,0,0,0,0,0,0,-213],
-              [0,0,1,0,0,0,0,0,-213],
-              [0,0,0,1,1,0,0,0,-2125],
-              [0,0,0,0,0,1,0,0,0],
-              [0,0,0,0,0,0,1,0,0],
-              [0,0,0,0,0,0,0,1,73],
-              [0,0,0,0,0,0,0,1]]
-
-rhs_ineq_f = [24936,1098,6024,2302,8109,432,2281,3699,1]
-```
-
-
-```python
-opt_f = linprog(c=obj_f, A_ub=lhs_ineq_f, b_ub=rhs_ineq_f, method="simplex")
-opt_f
-```
-
-
-    ---------------------------------------------------------------------------
-
-    ValueError                                Traceback (most recent call last)
-
-    ~\AppData\Roaming\Python\Python38\site-packages\scipy\optimize\_linprog_util.py in _clean_inputs(lp)
-        277     try:
-    --> 278         A_ub = _format_A_constraints(A_ub, n_x, sparse_lhs=sparse_lhs)
-        279     except ValueError as e:
-    
-
-    ~\AppData\Roaming\Python\Python38\site-packages\scipy\optimize\_linprog_util.py in _format_A_constraints(A, n_x, sparse_lhs)
-        153     else:
-    --> 154         return np.array(A, dtype=float, copy=True)
-        155 
-    
-
-    ValueError: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (9,) + inhomogeneous part.
-
-    
-    The above exception was the direct cause of the following exception:
-    
-
-    TypeError                                 Traceback (most recent call last)
-
-    ~\AppData\Local\Temp/ipykernel_4332/1480127920.py in <module>
-    ----> 1 opt_f = linprog(c=obj_f, A_ub=lhs_ineq_f, b_ub=rhs_ineq_f, method="simplex")
-          2 opt_f
-    
-
-    ~\AppData\Roaming\Python\Python38\site-packages\scipy\optimize\_linprog.py in linprog(c, A_ub, b_ub, A_eq, b_eq, bounds, method, callback, options, x0)
-        589 
-        590     lp = _LPProblem(c, A_ub, b_ub, A_eq, b_eq, bounds, x0)
-    --> 591     lp, solver_options = _parse_linprog(lp, options)
-        592     tol = solver_options.get('tol', 1e-9)
-        593 
-    
-
-    ~\AppData\Roaming\Python\Python38\site-packages\scipy\optimize\_linprog_util.py in _parse_linprog(lp, options)
-        989     solver_options, A_ub, A_eq = _check_sparse_inputs(solver_options, lp.A_ub, lp.A_eq)
-        990     # Convert lists to numpy arrays, etc...
-    --> 991     lp = _clean_inputs(lp._replace(A_ub=A_ub, A_eq=A_eq))
-        992     return lp, solver_options
-        993 
-    
-
-    ~\AppData\Roaming\Python\Python38\site-packages\scipy\optimize\_linprog_util.py in _clean_inputs(lp)
-        278         A_ub = _format_A_constraints(A_ub, n_x, sparse_lhs=sparse_lhs)
-        279     except ValueError as e:
-    --> 280         raise TypeError(
-        281             "Invalid input for linprog: A_ub must be a 2-D array "
-        282             "of numerical values") from e
-    
-
-    TypeError: Invalid input for linprog: A_ub must be a 2-D array of numerical values
-
-
-
-```python
-from pulp import GLPK
 from pulp import LpMaximize, LpProblem, LpStatus, lpSum, LpVariable
 ```
 
@@ -371,28 +259,6 @@ for name, constraint in model.constraints.items():
     print(f"{name}: {constraint.value()}")
 ```
 
-    status: 1, Optimal
-    objective: 2543.599100000001
-    x1: 1089.0
-    x2: 5968.25
-    x3: 2626.03
-    x4: 0.0
-    x5: 8190.0
-    x6: 432.0
-    x7: 3342.22
-    x8: 2225.5
-    total: 4.547473508864641e-13
-    Exec: 0.0
-    Educ: -1.1368683772161603e-13
-    Soc._Pol: 1.7053025658242404e-13
-    Health: 0.0
-    Culture: 0.0
-    Econ: -7.958078640513122e-13
-    Debt: -1400.5
-    
-
-
-
 ##### B) Economic recession model
 
 
@@ -432,25 +298,8 @@ for name, constraint in model_1.constraints.items():
     print(f"{name}: {constraint.value()}")
 ```
 
-    status: 1, Optimal
-    objective: 2070.946295
-    x1: 1035.0
-    x2: 4242.6481
-    x3: 2029.0926
-    x4: 0.0
-    x5: 8316.0
-    x6: 610.0
-    x7: 2213.5556
-    x8: 0.0
-    total: -5975.703700000002
-    Exec: 0.0
-    Educ: -4.9000000331034244e-05
-    Soc._Pol: 6.99999992548328e-06
-    Health: 0.0
-    Culture: 0.0
-    Econ: 4.399999988891068e-05
-    Debt: -3808.0
-    
+
+
 
 ##### FUZZY MODEL
 
@@ -492,24 +341,18 @@ for name, constraint in model_f.constraints.items():
     print(f"{name}: {constraint.value()}")
 ```
 
-    status: 1, Optimal
-    objective: 1.0
-    x1: 0.0
-    x2: 6237.0
-    x3: 2515.0
-    x4: 16183.0
-    x5: 0.0
-    x6: 0.0
-    x7: 0.0
-    x8: 0.0
-    x9: 1.0
-    total: 0.0
-    Exec: -1089.0
-    Educ: 0.0
-    Soc._Pol: 0.0
-    Health: 5868.0
-    Culture: -432.0
-    Econ: -2281.0
-    Debt: -3626.0
-    alpha: 0.0
-    
+
+
+|                                     | 1st Model                        |                                 | 2nd Model                            |                                   | Fuzzy Model<br />*Only for PULP         |
+| ----------------------------------- | -------------------------------- | ------------------------------- | ------------------------------------ | --------------------------------- | --------------------------------------- |
+| **Chapters**                        | **Growth   episode-no Covid-19** | **Current   budget allocation** | **Economic   recession-no Covid-19** | **Simulated   Budget allocation** | **Economic   Recession+     Covid-19*** |
+| Executive and Assembly + Justice    | 1,098                            | 1,098                           | 1,035                                | 1,035                             | 0                                       |
+| Education all levels + scholarships | 5,968                            | 6,023                           | 4,443                                | 5,617                             | 6,237                                   |
+| Social policies + employment        | 2,626                            | 2,302                           | 2,029                                | 2,686                             | 2,515                                   |
+| Health and central services         | 0                                | 4,184                           | 0                                    | 4,241                             | 16,183                                  |
+| Top 11 Hospitals Covid - 19         | 8,109                            | 3,924                           | 8,316                                | 4,075                             | 0                                       |
+| Culture and Environment             | 432                              | 432                             | 610                                  | 610                               | 0                                       |
+| Economy and Transportation          | 3,342                            | 2,280                           | 2,213                                | 2,350                             | 0                                       |
+| Debt                                | 2,298 <br />_2226_               | 3,626                           | 0                                    | 3,808                             | 0                                       |
+| **Objective function (Maximum)**:   | 2,524<br />_2543_                | -                               | 2,070                                | -                                 | **Alpha** = 1                           |
+
