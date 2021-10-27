@@ -1,11 +1,11 @@
 import numpy as np
 import pandas as pd
-from scipy.sparse import data
+
 from sklearn.tree import DecisionTreeClassifier #
 from sklearn.model_selection import train_test_split # function
 from sklearn.metrics import confusion_matrix
 from random import randint
-import matplotlib.pyplot as plot
+
 from matplotlib import pyplot as plt 
 
 data_test = pd.read_csv('test.csv')
