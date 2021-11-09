@@ -1,39 +1,58 @@
 import numpy as np
 import pandas as pd
-from scipy.sparse import data
-from sklearn.tree import DecisionTreeClassifier #
-from sklearn.model_selection import train_test_split # function
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 from random import randint
-import matplotlib.pyplot as plot
-from matplotlib import pyplot as plt 
+from matplotlib import pyplot as plt
+import seaborn as sns
 
 
 data_test = pd.read_csv('test.csv')
 data_train = pd.read_csv('train.csv')
 
 
+data_train.head(6)
+
+
 def uplo(db):
     y = db['target']
     X = db.drop('target', axis=1)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-    print('The shape of X dataset', X.shape[0])
-    print('The shape of X_train', X_train.shape[0])
+    xt, xte, yt, yte = train_test_split(X, y, test_size=0.3, random_state=42)
+    print('The shape of dataset:', X.shape[0])
+    print('The shape of the X dataset:', xt.shape[0])
     
-    return X_train,X_test,y_train,y_test
+    return xt,xte,yt,yte
 
 
 X_train, X_test, y_train, y_test = uplo(data_train)
 
 
-clf = DecisionTreeClassifier()
-clf = clf.fit(X_train,y_train)
-#Predict the response for test dataset
-y_pred = clf.predict(X_test)
-
-
 corrMatrix = data_train.corr()
+
 print(corrMatrix['target'][:10].sort_values(ascending=False))
+
+
+col = ['target','duration'               ,        
+'credit_amount'                 ,
+'checking_account_status_A12'   , 
+'installment_rate'              , 
+'present_residence'             , 
+'dependents'                    ,
+'existing_credits'             ,
+'checking_account_status_A13'  , 
+'age', 'checking_account_status_A14']
+
+
+corr = data_train[col].corr()
+
+ax = sns.heatmap(  corr, 
+    vmin=-1, vmax=1, center=0,
+    cmap=sns.diverging_palette(20, 200, n=200),
+    square=True)
+
+ax.set_xticklabels(ax.get_xticklabels(),
+    rotation=45, horizontalalignment='right');
 
 
 fp = []
@@ -69,10 +88,6 @@ re = nam.copy()
 re.append('BASE')
 
 
-lt = pd.DataFrame(list(zip(re, fp)),columns =['Name', 'CM val'])
-lt
-
-
 fig, ax = plt.subplots(figsize = (9, 6))
 ax.bar(re, fp)
 plt.setp(plt.gca().get_xticklabels(), rotation=25, horizontalalignment='right', fontsize=8)
@@ -84,8 +99,6 @@ X_train, X_test, y_train, y_test = uplo(data_test)
 
 
 fpt = []
-
-
 stree(fpt,X_train,X_test,y_train,y_test)
 
 
@@ -98,3 +111,15 @@ plt.bar(ret, fpt)
 plt.setp(plt.gca().get_xticklabels(), rotation=25, horizontalalignment='right', fontsize=8)
 plt.title('Test data: Selected variables')
 plt.show()
+
+
+lt = pd.DataFrame(list(zip(re, fp)),columns =['Name', 'CM val'])
+lt.index = lt.Name
+lt.drop(columns='Name', inplace=True)
+
+lt
+
+
+Dict = {'fp': [fp[-1]],
+        'most_important' : lt.loc[["purpose_A48", "age"]].to_dict(),
+        'fp_most_important' : lt['CM val'].min()}
