@@ -12,9 +12,9 @@ from matplotlib import pyplot as plt
 import seaborn as sns
 ```
 
-For this exercise it is required to use only three libraries: Pandas, Numpy and Sklearn -this last one for the Decision tree and the confusion matrix-. Additionally, we imported the random and matplotlib libraries to make the exercise more complete and visual.
+For this exercise, it is required to use only three libraries: Pandas, Numpy, and Sklearn -this last one for the Decision tree and the confusion matrix-. Additionally, we imported the random and matplotlib libraries to make the exercise completer and more visual.
 
-To continue we upload both _Train and Test_ databases. For this exercise it is only required to use the _Train Database_.
+To continue we upload both *Training and Test* databases. For this exercise, it is only required to use the *Training Database*.
 
 
 ```python
@@ -29,21 +29,6 @@ data_train.head(6)
 
 
 
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -219,13 +204,13 @@ data_train.head(6)
   </tbody>
 </table>
 <p>6 rows × 49 columns</p>
-</div>
 
 
 
- ## MODELLING ON DATA TRAIN
 
-We constructed a function to split the Database in a _train and test database_, the former one with a size of the 30%, and random state equal to 42 for reproduction of the results.
+ ## MODELING ON THE DATA TRAIN
+
+We constructed a function to split the Database into a *Training and Test database*, the former one with a size of 30%, and a random state equal to 42 for the reproduction of the results.
 
 
 ```python
@@ -252,14 +237,13 @@ The dataset has a size of 900 rows and the _X_train_ dataset of size 630.
 
 ## CORRELATION MATRIX
 
-To continue we construct a _Correlation Matrix_ to take the most significant variables with the _target variable_, this is not required in the exercise. 
+To continue we construct a *Correlation Matrix* to take the most significant variables with the *target variable*, this is not required in the exercise. 
 
-And we study the 10 most important.
+And as an example, we study the 10 most important ones.
 
 
 ```python
 corrMatrix = data_train.corr()
-
 print(corrMatrix['target'][:10].sort_values(ascending=False))
 ```
 
@@ -276,18 +260,14 @@ print(corrMatrix['target'][:10].sort_values(ascending=False))
     Name: target, dtype: float64
 
 
-From the correlation matrix, we take as other to important variables: _duration_ and _age_ being the former with the highest positive correlation and the latest with the negative correlation from the most important 10 variables. 
+From the correlation matrix, we take as other important variables: *duration* and *age* being the former with the highest positive correlation and the latest with the negative correlation from the most important 10 variables. 
 
 
 ```python
-col = ['target','duration'               ,        
-'credit_amount'                 ,
-'checking_account_status_A12'   , 
-'installment_rate'              , 
-'present_residence'             , 
-'dependents'                    ,
-'existing_credits'             ,
-'checking_account_status_A13'  , 
+col = [ 'target','duration' ,        
+'credit_amount' ,'checking_account_status_A12' , 
+'installment_rate','present_residence', 
+'dependents','existing_credits','checking_account_status_A13' , 
 'age', 'checking_account_status_A14']
 ```
 
@@ -305,14 +285,12 @@ ax.set_xticklabels(ax.get_xticklabels(),
 ```
 
 
-    
 ![png](tes_files/tes_15_0.png)
     
 
+After the correlation matrix, we decided to take two variables that have a considerable impact on the target variable (positive and negative correlation), which are: `duration and age`.
 
-After the correlation matrix, we decided to take two variables that have a considerable high (positive or negatice) with the target variable, this are: `duration and age`.
-
-In the next step, we construct an empty list that will save the metrics from the Classifier tree, then we take 5 random variables from the `Train database` and add the other 2 most correlated variables.
+In the next step, we construct an empty list that saves the metrics from the Classifier tree, then we take *five random variables* from the Train database and add the other selected two correlated variables.
 
 
 ```python
@@ -323,7 +301,7 @@ nam.extend(['duration','age'])
 nam
 ```
 
-
+From the above results, we can see that were chosen five variables randomly, and `duration and age` were added too.
 
 
     ['present_residence',
@@ -334,15 +312,25 @@ nam
      'duration',
      'age']
 
-
+### Classification function
 
 Finally, we define a function that consider five arguments:
 
-i) the empty list for metrics, ii) the train dataset, iii) the test dataset, iv) the target variable, and v) the target variable for the test dataset.
+​				i) the empty list for metrics, 
 
-The most relevant part of the function makes the permutation for each of the ramdon variables selected plus 'duration' and 'age'. Each of this permutation is saved in a temporal dataframe which is consider for the Classification exercise.
+​				ii) the train dataset,
 
-Once we perform the Classification, we make the prediction on the Test dataset, construct the Confussion Matrix and save the `false positive` values of each iteration and saved in a list. After the loop is finished, we finally perform the _Classification exercise_ on the original Train dataset and take its metric.
+​				iii) the test dataset, 
+
+​				iv) the target variable, and 
+
+​				v) the target variable for the test dataset.
+
+
+
+The most relevant part of the function makes the permutation for each of the random variables selected plus 'duration' and 'age'. Each of these permutations is saved in a temporal data frame which is only considered for the Classification exercise.
+
+Once we perform the Classification, we make the prediction on the test dataset, construct the Confusion Matrix and save the `false-positive` values of each iteration and save in the metric list. After the loop is finished, finally we perform the *Classification exercise* on the original Train dataset and take its metric.
 
 
 ```python
@@ -379,36 +367,14 @@ stree(fp,X_train,X_test,y_train,y_test)
     54
 
 
-
-
-
-    [71, 71, 71, 71, 26, 61, 54, 31]
-
-
-
-
 ```python
 re = nam.copy()
 re.append('BASE')
 ```
 
+Once we perform our Classification tree, we plot the metrics (false positive) for each variable plus the original estimation for the train dataset (called Base).
 
-
-
-    ['present_residence',
-     'credit_history_A31',
-     'job_A172',
-     'purpose_A41',
-     'purpose_A48',
-     'duration',
-     'age',
-     'BASE']
-
-
-
-Once we perform our Classication tree, we plot the metrics (false positive) for each variable plus the original train dataset (called Base).
-
-We see that the variable with least error is `purpose_A48` followed by our `Base model`; the other two variables with least error are: `duration` and `age`.
+We see that the variable with least error is `purpose_A48` followed by our `Base model`; being the other two variables with least error are: `duration` and `age`.
 
 
 ```python
@@ -420,16 +386,15 @@ plt.show()
 ```
 
 
-    
+​    
 ![png](tes_files/tes_23_0.png)
-    
+​    
 
+### Modeling on the Test dataset
 
- ## MODEL ON DATA TEST
+Finally, to test our previous model considering the same variables and specifications for the Classification tree, we reproduce the model specifications on the Test dataset. 
 
-Finally, to test our previous model considering the same variables and specification for the Classification tree, we reply it on the Test dataset. 
-
-We could see that the Test sample is considerable small with a size of 100 rows, and only 70 rows for the X dataset.
+We could see that the Test sample is considerably small with a size of 100 rows, and only 70 rows for the X dataset.
 
 
 ```python
@@ -438,8 +403,6 @@ X_train, X_test, y_train, y_test = uplo(data_test)
 
     The shape of dataset: 100
     The shape of the X dataset: 70
-
-
 
 ```python
 fpt = []
@@ -453,14 +416,6 @@ stree(fpt,X_train,X_test,y_train,y_test)
     10
     5
     8
-
-
-
-
-
-    [10, 10, 10, 10, 10, 5, 8, 6]
-
-
 
 
 ```python
@@ -480,12 +435,12 @@ plt.show()
 ```
 
 
-    
+​    
 ![png](tes_files/tes_30_0.png)
-    
+​    
 
 
-To conclude we constructe a Dataframe zipping the results from the Train sample.
+To conclude we construct a data frame zipping the results only from the Train sample.
 
 
 ```python
@@ -496,78 +451,22 @@ lt.drop(columns='Name', inplace=True)
 lt
 ```
 
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>CM val</th>
-    </tr>
-    <tr>
-      <th>Name</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>present_residence</th>
-      <td>71</td>
-    </tr>
-    <tr>
-      <th>credit_history_A31</th>
-      <td>71</td>
-    </tr>
-    <tr>
-      <th>job_A172</th>
-      <td>71</td>
-    </tr>
-    <tr>
-      <th>purpose_A41</th>
-      <td>71</td>
-    </tr>
-    <tr>
-      <th>purpose_A48</th>
-      <td>26</td>
-    </tr>
-    <tr>
-      <th>duration</th>
-      <td>61</td>
-    </tr>
-    <tr>
-      <th>age</th>
-      <td>54</td>
-    </tr>
-    <tr>
-      <th>BASE</th>
-      <td>31</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
+| Name               | False positive value |
+| ------------------ | -------------------- |
+| present_residence  | 71                   |
+| credit_history_A31 | 71                   |
+| job_A172           | 71                   |
+| purpose_A41        | 71                   |
+| purpose_A48        | 26                   |
+| duration           | 61                   |
+| age                | 54                   |
+| BASE               | 31                   |
 
 To present the main variables and its metrics, we construct a dictionary that contains three arguments:
 
 i) The error from the `Base model`.
 
-ii) The results from the most import variables.
+ii) The results from the most import variables, which must be different from the `Base model`
 
 iii) The variable model with the least error, which in our case is different from the `Base model`.
 
